@@ -5,6 +5,22 @@
 
 using namespace std;
 
+int* generateAnswer()
+  {
+    int valid_numbers [9] = {1,2,3,4,5,6,7,8,9};
+    for(int i = 0; i < 9; i++)
+    {
+        int j = rand()%10;
+        int temp = valid_numbers[i];
+        valid_numbers[i] = valid_numbers[j];
+        valid_numbers[j] = temp;
+    }
+    int *answer = new int[4];
+    memcpy(answer,valid_numbers,sizeof(int)*4);
+    return answer;
+  }
+
+
 int main()
 {
   cout << "Welcome to bulls and cows!\nDo you want to play? ";
@@ -28,16 +44,7 @@ int main()
       cout << "Please answer yes or no: ";
     }
 
-    int valid_numbers [9] = {1,2,3,4,5,6,7,8,9};
-    for(int i = 0; i < 9; i++){
-        int j = rand()%10;
-        int temp = valid_numbers[i];
-        valid_numbers[i] = valid_numbers[j];
-        valid_numbers[j] = temp;
-    }
-    int answer [4];
-    memcpy(&answer,valid_numbers,sizeof(int)*4);
-
+    int *answer = (int*)generateAnswer();
     string guess;
     while (cout << "Your guess? ", getline(cin, guess))
     {
@@ -48,7 +55,6 @@ int main()
             cout << "Guess must be 4 digits.";
             continue;
         }
-
 
         const char* chars = guess.data();
         int guessNumber [4];
@@ -107,3 +113,4 @@ int main()
     cout << "Another game? ";
   }
 }
+
