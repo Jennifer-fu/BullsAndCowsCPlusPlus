@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <cstdlib>
+#include <Game.h>
 
 using namespace std;
 
@@ -44,7 +45,8 @@ int main()
       cout << "Please answer yes or no: ";
     }
 
-    int *answer = (int*)generateAnswer();
+
+    int *answer = generateAnswer();
     string guess;
     while (cout << "Your guess? ", getline(cin, guess))
     {
@@ -57,7 +59,7 @@ int main()
         }
 
         const char* chars = guess.data();
-        int guessNumber [4];
+        int *guessNumber = new int[4];
         for (int i = 0; i < 4; i++)
         {
             int curNum = chars[i] - 48;
@@ -88,23 +90,25 @@ int main()
 
         if(!isValid)continue;
 
-        unsigned int bulls = 0;
-        unsigned int cows = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            if(guessNumber[i] == answer[i])
-                bulls++;
-            else
-            {
-                for (int j = 0; j < 4; j++) {
-                    if (guessNumber[i] == answer[j]) {
-                        cows++;
-                    }
-                }
-            }
-        }
-        cout << bulls << " bulls, " << cows << " cows.\n";
-        if (bulls == 4)
+//        unsigned int bulls = 0;
+//        unsigned int cows = 0;
+//        for (int i = 0; i < 4; i++)
+//        {
+//            if(guessNumber[i] == answer[i])
+//                bulls++;
+//            else
+//            {
+//                for (int j = 0; j < 4; j++) {
+//                    if (guessNumber[i] == answer[j]) {
+//                        cows++;
+//                    }
+//                }
+//            }
+//        }
+        Game game;
+        game.run(guessNumber, answer);
+        cout << game.get_bulls() << " bulls, " << game.get_cows() << " cows.\n";
+        if (game.get_bulls() == 4)
         {
             cout << "Congratulations! You have won!\n";
             break;
