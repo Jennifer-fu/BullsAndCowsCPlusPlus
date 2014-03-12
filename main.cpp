@@ -21,6 +21,45 @@ int* generateAnswer()
     return answer;
   }
 
+int* pre_process(string guess)
+{
+    bool isValid = true;
+
+    if (guess.length() != 4)
+    {
+        cout << "Guess must be 4 digits.";
+        return NULL;
+    }
+
+    const char* chars = guess.data();
+    int *guessNumber = new int[4];
+    for (int i = 0; i < 4; i++)
+    {
+        int curNum = chars[i] - 48;
+        if (curNum > 9 || curNum < 1)
+        {
+            cout << "Digit must be a 4-digit number within 1 to 9.";
+            isValid = false;
+            return NULL;
+        }
+        guessNumber[i] = curNum;
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = i + 1; j < 4; j++)
+        {
+            if(guessNumber[i] == guessNumber[j])
+            {
+                cout << "Digit must be a 4-digit number without duplication.";
+                isValid = false;
+                return NULL;
+            }
+        }
+    }
+    return guessNumber;
+}
+
 
 int main()
 {
@@ -50,61 +89,48 @@ int main()
     string guess;
     while (cout << "Your guess? ", getline(cin, guess))
     {
-        bool isValid = true;
-
-        if (guess.length() != 4)
-        {
-            cout << "Guess must be 4 digits.";
-            continue;
-        }
-
-        const char* chars = guess.data();
-        int *guessNumber = new int[4];
-        for (int i = 0; i < 4; i++)
-        {
-            int curNum = chars[i] - 48;
-            if (curNum > 9 || curNum < 1)
-            {
-                cout << "Digit must be a 4-digit number within 1 to 9.";
-                isValid = false;
-                break;
-            }
-            guessNumber[i] = curNum;
-        }
-
-        if(!isValid)continue;
-
-        for(int i = 0; i < 4; i++)
-        {
-            for(int j = i + 1; j < 4; j++)
-            {
-                if(guessNumber[i] == guessNumber[j])
-                {
-                    cout << "Digit must be a 4-digit number without duplication.";
-                    isValid = false;
-                    break;
-                }
-            }
-            if(!isValid)break;
-        }
-
-        if(!isValid)continue;
-
-//        unsigned int bulls = 0;
-//        unsigned int cows = 0;
+//        bool isValid = true;
+//
+//        if (guess.length() != 4)
+//        {
+//            cout << "Guess must be 4 digits.";
+//            continue;
+//        }
+//
+//        const char* chars = guess.data();
+//        int *guessNumber = new int[4];
 //        for (int i = 0; i < 4; i++)
 //        {
-//            if(guessNumber[i] == answer[i])
-//                bulls++;
-//            else
+//            int curNum = chars[i] - 48;
+//            if (curNum > 9 || curNum < 1)
 //            {
-//                for (int j = 0; j < 4; j++) {
-//                    if (guessNumber[i] == answer[j]) {
-//                        cows++;
-//                    }
+//                cout << "Digit must be a 4-digit number within 1 to 9.";
+//                isValid = false;
+//                break;
+//            }
+//            guessNumber[i] = curNum;
+//        }
+//
+//        if(!isValid)continue;
+//
+//        for(int i = 0; i < 4; i++)
+//        {
+//            for(int j = i + 1; j < 4; j++)
+//            {
+//                if(guessNumber[i] == guessNumber[j])
+//                {
+//                    cout << "Digit must be a 4-digit number without duplication.";
+//                    isValid = false;
+//                    break;
 //                }
 //            }
+//            if(!isValid)break;
 //        }
+//
+//        if(!isValid)continue;
+
+        int* guessNumber = pre_process(guess);
+        if(guessNumber == NULL) continue;
         Game game;
         game.run(guessNumber, answer);
         cout << game.get_bulls() << " bulls, " << game.get_cows() << " cows.\n";
