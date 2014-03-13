@@ -23,44 +23,44 @@ int* generateAnswer()
     return answer;
   }
 
-int* pre_process(string guess)
-{
-    bool isValid = true;
-
-    if (guess.length() != ANSWER_LENGTH)
-    {
-        cout << "Guess must be 4 digits.";
-        return NULL;
-    }
-
-    const char* chars = guess.data();
-    int *guessNumber = new int[ANSWER_LENGTH];
-    for (int i = 0; i < ANSWER_LENGTH; i++)
-    {
-        int curNum = chars[i] - 48;
-        if (curNum > 9 || curNum < 1)
-        {
-            cout << "Digit must be a 4-digit number within 1 to 9.";
-            isValid = false;
-            return NULL;
-        }
-        guessNumber[i] = curNum;
-    }
-
-    for(int i = 0; i < ANSWER_LENGTH; i++)
-    {
-        for(int j = i + 1; j < ANSWER_LENGTH; j++)
-        {
-            if(guessNumber[i] == guessNumber[j])
-            {
-                cout << "Digit must be a 4-digit number without duplication.";
-                isValid = false;
-                return NULL;
-            }
-        }
-    }
-    return guessNumber;
-}
+//int* pre_process(string guess)
+//{
+//    bool isValid = true;
+//
+//    if (guess.length() != ANSWER_LENGTH)
+//    {
+//        cout << "Guess must be 4 digits.";
+//        return NULL;
+//    }
+//
+//    const char* chars = guess.data();
+//    int *guessNumber = new int[ANSWER_LENGTH];
+//    for (int i = 0; i < ANSWER_LENGTH; i++)
+//    {
+//        int curNum = chars[i] - 48;
+//        if (curNum > 9 || curNum < 1)
+//        {
+//            cout << "Digit must be a 4-digit number within 1 to 9.";
+//            isValid = false;
+//            return NULL;
+//        }
+//        guessNumber[i] = curNum;
+//    }
+//
+//    for(int i = 0; i < ANSWER_LENGTH; i++)
+//    {
+//        for(int j = i + 1; j < ANSWER_LENGTH; j++)
+//        {
+//            if(guessNumber[i] == guessNumber[j])
+//            {
+//                cout << "Digit must be a 4-digit number without duplication.";
+//                isValid = false;
+//                return NULL;
+//            }
+//        }
+//    }
+//    return guessNumber;
+//}
 
 
 int main()
@@ -89,12 +89,10 @@ int main()
 
     int *answer = generateAnswer();
     string guess;
+    Game game(ANSWER_LENGTH);
     while (cout << "Your guess? ", getline(cin, guess))
     {
-        int* guessNumber = pre_process(guess);
-        if(guessNumber == NULL) continue;
-        Game game;
-        game.run(guessNumber, answer);
+        game.run(guess);
         cout << game.get_bulls() << " bulls, " << game.get_cows() << " cows.\n";
         if (game.get_bulls() == ANSWER_LENGTH)
         {
