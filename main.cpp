@@ -9,12 +9,9 @@ using namespace std;
 
 const int ANSWER_LENGTH = 4;
 
-int main()
+int welcom()
 {
-  cout << "Welcome to bulls and cows!\nDo you want to play? ";
-  string answer;
-  while (true)
-  {
+    string answer;
     while (true)
     {
       if (!getline(cin, answer))
@@ -31,11 +28,18 @@ int main()
       }
       cout << "Please answer yes or no: ";
     }
+}
 
-    string guess;
-    Game game(ANSWER_LENGTH);
-    while (cout << "Your guess? ", getline(cin, guess))
-    {
+int main()
+{
+  cout << "Welcome to bulls and cows!\nDo you want to play? ";
+  while (true)
+  {
+      if(!welcom()) return EXIT_SUCCESS;
+      string guess;
+      Game game(ANSWER_LENGTH);
+      while (cout << "Your guess? ", getline(cin, guess))
+      {
         try{
             game.run(guess);
             cout << game.result()<<"\n";
@@ -48,8 +52,8 @@ int main()
         {
             cout << e.get_message();
         }
-    }
-    cout << "Another game? ";
+      }
+      cout << "Another game? ";
   }
 }
 
