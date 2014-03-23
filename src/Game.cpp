@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
-#include "Game.h"
+#include <Game.h>
+#include <InvalidInputException.h>
 
 using namespace std;
 
@@ -23,7 +24,6 @@ void Game::run(string guess)
     bulls = 0;
     cows = 0;
     int* guessNumber = pre_process(guess);
-    if(guessNumber == NULL) cout<<"exception";
     for (int i = 0; i < 4; i++)
     {
         if(guessNumber[i] == answer[i])
@@ -71,8 +71,8 @@ int* Game::pre_process(string guess)
 
     if (guess.length() != length)
     {
-        cout << "Guess must be 4 digits.";
-        return NULL;
+        InvalidInputException exception("Guess must be 4 digits.");
+        throw exception;
     }
 
     const char* chars = guess.data();
@@ -82,8 +82,8 @@ int* Game::pre_process(string guess)
         int curNum = chars[i] - 48;
         if (curNum > 9 || curNum < 1)
         {
-            cout << "Digit must be a 4-digit number within 1 to 9.";
-            return NULL;
+            InvalidInputException exception("Digit must be a 4-digit number within 1 to 9.");
+            throw exception;
         }
         guessNumber[i] = curNum;
     }
@@ -94,8 +94,8 @@ int* Game::pre_process(string guess)
         {
             if(guessNumber[i] == guessNumber[j])
             {
-                cout << "Digit must be a 4-digit number without duplication.";
-                return NULL;
+                InvalidInputException exception("Digit must be a 4-digit number without duplication.");
+                throw exception;
             }
         }
     }

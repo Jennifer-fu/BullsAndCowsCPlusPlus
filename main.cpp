@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <Game.h>
+#include <InvalidInputException.h>
 
 using namespace std;
 
@@ -35,12 +36,17 @@ int main()
     Game game(ANSWER_LENGTH);
     while (cout << "Your guess? ", getline(cin, guess))
     {
-        game.run(guess);
-        cout << game.result()<<"\n";
-        if (game.over())
+        try{
+            game.run(guess);
+            cout << game.result()<<"\n";
+            if (game.over())
+            {
+                cout << "Congratulations! You have won!\n";
+                break;
+            }
+        }catch(InvalidInputException e)
         {
-            cout << "Congratulations! You have won!\n";
-            break;
+            cout << e.get_message();
         }
     }
     cout << "Another game? ";
