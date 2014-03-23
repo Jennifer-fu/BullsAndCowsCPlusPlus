@@ -68,15 +68,25 @@ int* Game::generate_answer()
 
 int* Game::pre_process(string guess)
 {
+    check_length(guess);
+    check_digits(guess);
+    int *guessNumber = change_to_int_array(guess);
+    check_duplication(guessNumber);
+    return guessNumber;
+}
 
-    if (guess.length() != length)
+void Game::check_length(string guess)
+{
+       if (guess.length() != length)
     {
         InvalidInputException exception("Guess must be 4 digits.");
         throw exception;
     }
+}
 
+void Game::check_digits(string guess)
+{
     const char* chars = guess.data();
-    int *guessNumber = new int[length];
     for (unsigned int i = 0; i < length; i++)
     {
         int curNum = chars[i] - 48;
@@ -85,9 +95,22 @@ int* Game::pre_process(string guess)
             InvalidInputException exception("Digit must be a 4-digit number within 1 to 9.");
             throw exception;
         }
-        guessNumber[i] = curNum;
     }
+}
 
+int* Game::change_to_int_array(string guess)
+{
+    const char* chars = guess.data();
+    int *guessNumber = new int[length];
+    for (unsigned int i = 0; i < length; i++)
+    {
+        guessNumber[i] = chars[i] - 48;
+    }
+    return guessNumber;
+}
+
+void Game::check_duplication(int* guessNumber)
+{
     for(unsigned int i = 0; i < length; i++)
     {
         for(unsigned int j = i + 1; j < length; j++)
@@ -99,5 +122,4 @@ int* Game::pre_process(string guess)
             }
         }
     }
-    return guessNumber;
 }

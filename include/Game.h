@@ -19,6 +19,10 @@ class Game
         int* answer;
         int* generate_answer();
         int* pre_process(string guess);
+        void check_length(string guess);
+        void check_digits(string guess);
+        int* change_to_int_array(string guess);
+        void check_duplication(int* guessNumber);
 };
 
 #endif // GAME_H
