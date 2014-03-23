@@ -14,29 +14,11 @@ Game::Game(int length)
     answer = generate_answer();
 }
 
-Game::~Game()
-{
-    //dtor
-}
-
 void Game::run(string guess)
 {
-    bulls = 0;
-    cows = 0;
+    bulls = 0, cows = 0;
     int* guessNumber = pre_process(guess);
-    for (int i = 0; i < 4; i++)
-    {
-        if(guessNumber[i] == answer[i])
-            bulls++;
-        else
-        {
-            for (int j = 0; j < 4; j++) {
-                if (guessNumber[i] == answer[j]) {
-                    cows++;
-                }
-            }
-        }
-    }
+    calculate_count(guessNumber);
 }
 
 string Game::result()
@@ -49,6 +31,33 @@ string Game::result()
 bool Game::over()
 {
     return bulls == length;
+}
+
+void Game::calculate_count(int* guessNumber)
+{
+    calculate_bulls_count(guessNumber);
+    calculate_cows_count(guessNumber);
+}
+
+void Game:: calculate_bulls_count(int* guessNumber)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if(guessNumber[i] == answer[i])
+            bulls++;
+    }
+}
+
+void Game::calculate_cows_count(int* guessNumber)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++) {
+            if (j!=i && guessNumber[i] == answer[j]) {
+                cows++;
+            }
+        }
+    }
 }
 
 int* Game::generate_answer()
@@ -122,4 +131,9 @@ void Game::check_duplication(int* guessNumber)
             }
         }
     }
+}
+
+Game::~Game()
+{
+    //dtor
 }

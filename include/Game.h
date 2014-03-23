@@ -23,6 +23,9 @@ class Game
         void check_digits(string guess);
         int* change_to_int_array(string guess);
         void check_duplication(int* guessNumber);
+        void calculate_count(int* guessNumber);
+        void calculate_bulls_count(int* guessNumber);
+        void calculate_cows_count(int* guessNumber);
 };
 
 #endif // GAME_H
