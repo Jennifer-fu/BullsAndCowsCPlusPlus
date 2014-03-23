@@ -1,14 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+using namespace std;
 
 class Game
 {
     public:
         Game(int length);
-        void run(std::string guess);
-        int get_bulls();
-        int get_cows();
+        void run(string guess);
+        string result();
+        bool over();
         virtual ~Game();
     protected:
     private:
@@ -17,7 +18,7 @@ class Game
         unsigned int length;
         int* answer;
         int* generate_answer();
-        int* pre_process(std::string guess);
+        int* pre_process(string guess);
 };
 
 #endif // GAME_H

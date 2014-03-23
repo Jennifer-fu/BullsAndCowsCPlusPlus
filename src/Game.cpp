@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <string>
+#include <stdio.h>
 #include "Game.h"
 
 using namespace std;
@@ -38,14 +39,16 @@ void Game::run(string guess)
     }
 }
 
-int Game::get_bulls()
+string Game::result()
 {
-    return bulls;
+    char result[4];
+    sprintf(result,"%dB%dC",bulls,cows);
+    return result;
 }
 
-int Game::get_cows()
+bool Game::over()
 {
-    return cows;
+    return bulls == length;
 }
 
 int* Game::generate_answer()
